@@ -31,6 +31,33 @@ function loadImage() {
     gameoverImage.src="images/gameover.jpg";
 }
 
+let keysDown={}
+function setupKeyboardListeners() {
+    document.addEventListener("keydown", function(event){
+        keysDown[event.keyCode] = true;
+        console.log("keydown", event.keyCode)
+    })
+    document.addEventListener("keyup", function(){
+        delete keysDown[event.keyCode]
+        console.log("keyup", event.keyCode)
+    })
+}
+
+function update() {
+    if(39 in keysDown){
+        spaceshipX += 5; // speed of spaceship
+    }
+    if(37 in keysDown){
+        spaceshipX -= 5;
+    }
+    if(spaceshipX <= 0){
+        spaceshipX = 0;
+    }
+    if(spaceshipX >= canvas.width - 64){
+        spaceshipX = canvas.width - 64
+    }
+}
+
 function render() {
     // drawImage(image, x, y, width, height)
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -38,10 +65,11 @@ function render() {
 }
 
 function main() {
+    update()
     render();
-
     requestAnimationFrame(main);
 }
 
 loadImage();
+setupKeyboardListeners()
 main();
