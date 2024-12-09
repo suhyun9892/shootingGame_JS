@@ -42,7 +42,7 @@ function enemy() {
     this.y = 0
     this.init = function() {
         this.y = 0 // 최상단
-        this.x =  generateRandomValue(0, canvas.width - 48) // 위치 랜덤
+        this.x =  generateRandomValue(0, canvas.width - 64) // 위치 랜덤
         // enemy 리스트에 저장
         enemyList.push(this)
     }
@@ -142,7 +142,7 @@ function main() {
     render();
     requestAnimationFrame(main)
     } else {
-        ctx.drawImage(gameoverImage, 10, 100, 380, 180)
+        ctx.drawImage(gameoverImage, 10, 200, 380, 180)
     }
 }
 
