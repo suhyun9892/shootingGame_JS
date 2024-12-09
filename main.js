@@ -21,14 +21,14 @@ let score = 0
 function Bullet() {
     this.x = 0
     this.y = 0
-    this.init = function() {
-        this.x = spaceshipX + 20
+    this.init = function() { // 총알 초기화
+        this.x = spaceshipX + 20 // 총알 위치가 우주선 중앙에서 나가도록 +20
         this.y = spaceshipY
         this.alive = true // true면 화면에 보임, false면 화면에 안보임
         bulletList.push(this)
     }
     this.update = function() {
-        this.y -= 7
+        this.y -= 7 // 총알 발사 = y좌표 감소
     }
 
     this.checkHit = function() {
@@ -62,7 +62,7 @@ this.update = function() {
     this.y += 3 // 적군 속도 조절
 
     if(this.y >= canvas.height-64) {
-        gameOver = true
+        gameOver = true // true면 게임 끝
         console.log("game over")
     }
 }
@@ -85,6 +85,7 @@ function loadImage() {
     gameoverImage.src="images/gameover.jpg";
 }
 
+// 키다운 이벤트, 키업 이벤트시 키코드를 저장
 let keysDown={}
 function setupKeyboardListeners() {
     document.addEventListener("keydown", function(event){
@@ -111,12 +112,13 @@ function createEnemy() {
 }
 
 function update() {
-    if(39 in keysDown){
-        spaceshipX += 5; // speed of spaceship
+    if(39 in keysDown){ // 39는 오른쪽 방향키
+        spaceshipX += 5; // 오른쪽 방향키 누르면 우주선 x좌표 5 증가
     }
-    if(37 in keysDown){
-        spaceshipX -= 5;
+    if(37 in keysDown){ // 37은 왼쪽 방향키
+        spaceshipX -= 5; // 왼쪽 방향키 누르면 우주선 x좌표 5 감소
     }
+    // 우주선이 화면 밖으로 나가지 않도록 제한
     if(spaceshipX <= 0){
         spaceshipX = 0;
     }
@@ -151,6 +153,7 @@ function render() {
             ctx.drawImage(bulletImage, bulletList[i].x, bulletList[i].y)
         }       
 }
+    // 적군 그려주기
     for (let i = 0; i < enemyList.length; i++){
         ctx.drawImage(enemyImage, enemyList[i].x, enemyList[i].y)
     }
