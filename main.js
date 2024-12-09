@@ -9,6 +9,7 @@ canvas.height=700;
 document.body.appendChild(canvas)
 
 let backgroundImage, spaceshipImage, enemyImage, bulletImage, gameoverImage;
+let gameOver = false; // true면 게임 끝, false면 게임 진행
 
 // 우주선 좌표
 let spaceshipX = canvas.width/2 - 32
@@ -47,6 +48,11 @@ function enemy() {
     }
 this.update = function() {
     this.y += 3 // 적군 속도 조절
+
+    if(this.y >= canvas.height-64) {
+        gameOver = true
+        console.log("game over")
+    }
 }
 }
 
@@ -131,9 +137,13 @@ function render() {
 }
 
 function main() {
+    if(!gameOver){
     update()
     render();
-    requestAnimationFrame(main);
+    requestAnimationFrame(main)
+    } else {
+        ctx.drawImage(gameoverImage, 10, 100, 380, 180)
+    }
 }
 
 loadImage();
