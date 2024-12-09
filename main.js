@@ -30,6 +30,26 @@ function Bullet() {
     }
 }
 
+function generateRandomValue(min, max) {
+    let randomNum = Math.floor(Math.random()*(max-min+1))+min
+    return randomNum
+}
+
+let enemyList = []
+function enemy() {
+    this.x = 0
+    this.y = 0
+    this.init = function() {
+        this.y = 0 // 최상단
+        this.x =  generateRandomValue(0, canvas.width - 48) // 위치 랜덤
+        // enemy 리스트에 저장
+        enemyList.push(this)
+    }
+this.update = function() {
+    this.y += 3 // 적군 속도 조절
+}
+}
+
 function loadImage() {
     backgroundImage = new Image();
     backgroundImage.src="images/background.jpg";
@@ -61,8 +81,15 @@ function setupKeyboardListeners() {
 }
 
 function createBullet() {
-    let b = new Bullet()
+    let b = new Bullet() // 총알 하나 생성
     b.init()
+}
+
+function createEnemy() {
+    const interval = setInterval(function() {
+        let e = new enemy()
+        e.init()
+    }, 1000)
 }
 
 function update() {
@@ -83,6 +110,10 @@ function update() {
     for (let i = 0; i < bulletList.length; i++){
         bulletList[i].update()
     }
+
+    for (let i = 0; i < enemyList.length; i++){
+        enemyList[i].update()
+    }
 }
 
 function render() {
@@ -94,6 +125,9 @@ function render() {
     for (let i = 0; i < bulletList.length; i++){
         ctx.drawImage(bulletImage, bulletList[i].x, bulletList[i].y)
 }
+    for (let i = 0; i < enemyList.length; i++){
+        ctx.drawImage(enemyImage, enemyList[i].x, enemyList[i].y)
+    }
 }
 
 function main() {
@@ -104,4 +138,5 @@ function main() {
 
 loadImage();
 setupKeyboardListeners()
+createEnemy()
 main();
