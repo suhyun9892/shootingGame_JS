@@ -16,6 +16,7 @@ let spaceshipX = canvas.width/2 - 32
 let spaceshipY = canvas.height - 64
 
 let bulletList = [] // 총알 저장 리스트
+let score = 0
 
 function Bullet() {
     this.x = 0
@@ -23,12 +24,23 @@ function Bullet() {
     this.init = function() {
         this.x = spaceshipX + 20
         this.y = spaceshipY
-
+        this.alive = true // true면 화면에 보임, false면 화면에 안보임
         bulletList.push(this)
     }
     this.update = function() {
         this.y -= 7
     }
+
+    this.checkHit = function() {
+        for (let i=0; i<enemyList.length; i++){
+            if(this.y <= enemyList[i].y && this.x >= enemyList[i].x && this.x <= enemyList[i].x + 40){
+            // 총알이 죽게 됨, 적군의 우주선이 없어짐, 점수 획득
+            score ++
+            this.alive = false // 총알이 죽음
+            enemyList.splice(i, 1) // 적군이 죽음
+        }
+    }
+}
 }
 
 function generateRandomValue(min, max) {
@@ -114,7 +126,10 @@ function update() {
 
     // 총알 y 좌표 업데이트 하는 함수 호출
     for (let i = 0; i < bulletList.length; i++){
+        if(bulletList[i].alive){
         bulletList[i].update()
+        bulletList[i].checkHit()
+        }
     }
 
     for (let i = 0; i < enemyList.length; i++){
@@ -129,7 +144,9 @@ function render() {
 
     // 총알 그려주기
     for (let i = 0; i < bulletList.length; i++){
-        ctx.drawImage(bulletImage, bulletList[i].x, bulletList[i].y)
+        if (bulletList[i].alive){
+            ctx.drawImage(bulletImage, bulletList[i].x, bulletList[i].y)
+        }       
 }
     for (let i = 0; i < enemyList.length; i++){
         ctx.drawImage(enemyImage, enemyList[i].x, enemyList[i].y)
