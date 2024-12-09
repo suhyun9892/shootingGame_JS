@@ -141,6 +141,9 @@ function render() {
     // drawImage(image, x, y, width, height)
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
     ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY);
+    ctx.fillText(`Score:${score}`, 20, 20)
+    ctx.fillStyle = "white"
+    ctx.font = "20px Verdana"
 
     // 총알 그려주기
     for (let i = 0; i < bulletList.length; i++){
